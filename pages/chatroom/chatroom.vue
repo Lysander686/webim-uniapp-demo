@@ -24,8 +24,9 @@ export default {
   onLoad(options) {
     let username = JSON.parse(options.username);
     this.setData({
-      username: username
+      username: username 
     });
+    console.log(this.username);
     uni.setNavigationBarTitle({
       title: username.your
     });

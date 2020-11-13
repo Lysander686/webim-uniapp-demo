@@ -26,6 +26,7 @@ function onMessageError(err) {
 
   return true;
 }
+
 function getCurrentRoute() {
   let pages = getCurrentPages();
   if (pages.length > 0) {
@@ -198,6 +199,7 @@ export default {
   // 	});
   // },
   onLaunch() {
+    
     // 调用 API 从本地缓存中获取数据
     // uni.setInnerAudioOption({
     //   obeyMuteSwitch: false

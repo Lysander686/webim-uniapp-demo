@@ -55,8 +55,8 @@ let runAnimation = true;
 export default {
   data() {
     return {
-      name: "",
-      psd: "",
+      name: "lysander",
+      psd: "password",
       grant_type: "password",
       psdFocus: "",
       nameFocus: ""
@@ -68,6 +68,8 @@ export default {
   onLoad: function () {
     const me = this;
     const app = getApp().globalData;
+    
+    this.login()
     
     disp.on("em.error.passwordErr", function () {
       uni.showToast({title: "用户名或密码错误",icon:'none'});

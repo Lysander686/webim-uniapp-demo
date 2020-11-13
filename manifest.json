@@ -109,5 +109,10 @@
         "minPlatformVersion" : 1061,
         "versionName" : "1.0",
         "versionCode" : 10
+    },
+    "h5" : {
+        "devServer" : {
+            "port" : 9050
+        }
     }
 }
