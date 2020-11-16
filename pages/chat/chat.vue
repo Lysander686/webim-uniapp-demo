@@ -1,3 +1,4 @@
+<!-- tabPage 聊天页 -->
 <template>
   <view>
     <view
@@ -229,11 +230,9 @@
           unReadTotalNotNum: getApp().globalData.saveFriendList.length + getApp().globalData.saveGroupInvitedList.length
         });
       });
+
       disp.on("em.contacts.remove", function () {
-        me.getRoster(); // me.setData({
-        // 	arr: me.getChatList(),
-        // 	unReadSpotNum: getApp().globalData.unReadMessageNum > 99 ? '99+' : getApp().globalData.unReadMessageNum,
-        // });
+        me.getRoster();
       });
       this.getRoster();
     },
@@ -275,17 +274,16 @@
         let rosters = {
           success(roster) {
             var member = [];
-
             for (let i = 0; i < roster.length; i++) {
               if (roster[i].subscription == "both") {
                 member.push(roster[i]);
               }
             }
-
             uni.setStorage({
               key: "member",
               data: member
             });
+
             me.setData({
               member: member
             });
@@ -313,27 +311,35 @@
         var array = [];
         var member = uni.getStorageSync("member");
         var myName = uni.getStorageSync("myUsername");
+
         var listGroups = uni.getStorageSync('listGroup') || [];
+        // console.log('listGroups',listGroups)
         // console.log('member', member)
         // console.log('listGroups', listGroups)
         for (let i = 0; i < member.length; i++) {
+          // 新消息
           let newChatMsgs = uni.getStorageSync(member[i].name + myName) || [];
           let historyChatMsgs = uni.getStorageSync("rendered_" + member[i].name + myName) || [];
+          
+          // 目前的所有消息: 历史消息 + 新消息
           let curChatMsgs = historyChatMsgs.concat(newChatMsgs);
-
+          // console.log('newChatMsgs: ', newChatMsgs)
+          // console.log('historyChatMsgs: ', historyChatMsgs)
+          // console.log('curChatMsgs: ', curChatMsgs)
+          
           if (curChatMsgs.length) {
+            // 最新未读消息
             let lastChatMsg = curChatMsgs[curChatMsgs.length - 1];
             lastChatMsg.unReadCount = newChatMsgs.length;
-
             if (lastChatMsg.unReadCount > 99) {
               lastChatMsg.unReadCount = "99+";
             }
-
             let dateArr = lastChatMsg.time.split(' ')[0].split('-');
             let timeArr = lastChatMsg.time.split(' ')[1].split(':');
             let month = dateArr[2] < 10 ? '0' + dateArr[2] : dateArr[2];
             lastChatMsg.dateTimeNum = `${dateArr[1]}${month}${timeArr[0]}${timeArr[1]}${timeArr[2]}`;
             lastChatMsg.time = `${dateArr[1]}月${dateArr[2]}日 ${timeArr[0]}时${timeArr[1]}分`;
+            
             array.push(lastChatMsg);
           }
         }

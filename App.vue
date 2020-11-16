@@ -89,10 +89,6 @@ function calcUnReadSpot(message) {
 // }
 
 
-
-
-
-
 function saveGroups() {
   var me = this;
   return WebIM.conn.getGroup({
@@ -489,6 +485,15 @@ export default {
 
       // 各种异常
       onError(error) {
+        if (error.type ===28 && error.message === "token not assign error") {
+          uni.navigateTo({
+            url: '../login/login',
+            success: (res) => {
+              uni.navigateBack()
+            }
+          })
+          return
+        }
         console.log(error); // 16: server-side close the websocket connection
 
         if (error.type == WebIM.statusCode.WEBIM_CONNCTION_DISCONNECTED) {
